@@ -1,7 +1,7 @@
 # The Torchbearer
 
-**Student Name:** ___________________________
-**Student ID:** ___________________________
+**Student Name:** Rachel Rogers
+**Student ID:** 133560411
 **Course:** CS 460 – Algorithms | Spring 2026
 
 > This README is your project documentation. Write it the way a developer would document
@@ -17,13 +17,19 @@
 > per question. Each bullet should be 1-2 sentences max.
 
 - **Why a single shortest-path run from S is not enough:**
-  _Your answer here._
+  _Running Dijkstra once from S can find the cheapest path to each location on its own, but it
+can’t figure out the best order to visit multiple relic chambers. For example, going to R1 before
+R2 might cost less overall than going to R2 before R1, and a single run doesn’t compare those 
+possibilities._
 
 - **What decision remains after all inter-location costs are known:**
-  _Your answer here._
+  _Even after we know the cheapest travel cost between every important location, we still have
+to decide the best order to collect the relics before finally heading to the exit._
 
 - **Why this requires a search over orders (one sentence):**
-  _Your answer here._
+  _Since the total fuel cost changes depending on the order the relics are visited, the engine has 
+to check different possible orders to find the cheapest overall route._
+
 
 ---
 

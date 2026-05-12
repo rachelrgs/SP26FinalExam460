@@ -2,8 +2,8 @@
 CS 460 – Algorithms: Final Programming Assignment
 The Torchbearer
 
-Student Name: ___________________________
-Student ID:   ___________________________
+Student Name: Rachel Rogers
+Student ID:   133560411
 
 INSTRUCTIONS
 ------------
@@ -34,8 +34,21 @@ def explain_problem():
 
     TODO
     """
-    return "TODO"
+    return (
+        "Why a single shortest-path run from S is not enough: "
+        "Running Dijkstra once from S can find the cheapest path to each location on its own, but it "
+        "can’t figure out the best order to visit multiple relic chambers. For example, going to R1 before "
+        "R2 might cost less overall than going to R2 before R1, and a single run doesn’t compare those "
+        "possibilities.\n\n"
 
+        "What decision remains after all inter-location costs are known: "
+        "Even after we know the cheapest travel cost between every important location, we still have "
+        "to decide the best order to collect the relics before finally heading to the exit. \n\n"
+
+        "Why this requires a search over orders: "
+        "Since the total fuel cost changes depending on the order the relics are visited, the engine has "
+        "to check different possible orders to find the cheapest overall route."
+    )
 
 # =============================================================================
 # PART 2
