@@ -1,7 +1,7 @@
 # Development Log – The Torchbearer
 
-**Student Name:** ___________________________
-**Student ID:** ___________________________
+**Student Name:** Rachel Rogers
+**Student ID:** 133560411
 
 > Instructions: Write at least four dated entries. Required entry types are marked below.
 > Two to five sentences per entry is sufficient. Write entries as you go, not all in one
@@ -10,12 +10,18 @@
 
 ---
 
-## Entry 1 – [Date]: Initial Plan
+## Entry 1 – [05/11/2026]: Initial Plan
 
 > Required. Write this before writing any code. Describe your plan: what you will
 > implement first, what parts you expect to be difficult, and how you plan to test.
 
-_Your entry here._
+_I will start with Part 2, because run_dijkstra seems to be the foundation for
+everything. If I get that right, I can trust the distance table when building
+the search. I think the trickiest part will be Part 5 and Part 6, specifically getting
+the recursive explore function with backtracking and pruning to work, and getting the state
+management (with unmarking relics on the backtrack) right. For testing, I will use the
+provided four test cases to start, and then make my own graphs with known optimal routes to
+check edge cases._
 
 ---
 
