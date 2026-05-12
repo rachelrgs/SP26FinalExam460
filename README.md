@@ -7,7 +7,7 @@
 > This README is your project documentation. Write it the way a developer would document
 > their design decisions , bullet points, brief justifications, and concrete examples where
 > required. You are not writing an essay. You are explaining what you built and why you built
-> it that way. Delete all blockquotes like this one before submitting.
+> it that way. Delete all blockquotes like this one before submitting. 
 
 ---
 

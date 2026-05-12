@@ -43,7 +43,7 @@ _Your entry here._
 ## Entry 4 – [Date]: Post-Implementation Reflection
 
 > Required. Written after your implementation is complete. Describe what you would
-> change or improve given more time.
+> change or improve given more time. 
 
 _Your entry here._
 
