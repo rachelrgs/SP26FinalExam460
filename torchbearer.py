@@ -157,10 +157,46 @@ def dijkstra_invariant_check():
     str
         Your Part 3 README answers, written as a string.
         Must match what you wrote in README Part 3.
-
-    TODO
     """
-    return "TODO"
+
+    return (
+        "Why a single shortest-path run from S is not enough: "
+        "Running Dijkstra once from S can find the cheapest path to each location on its own, but it "
+        
+        "Part 3a: What the Invariant Means"
+        "For nodes already finalized (in S): "
+        "dist[v] is the actual shortest distance from the source to v. Once a node is "
+        "finalized, its value is guaranteed to be correct and will never change, because "
+        "no future path can produce a smaller distance."
+        
+        "For nodes not yet finalized (not in S): "
+        "dist[u] is the cheapest distance found so far from the source to u using only "
+        "finalized nodes as intermediate steps. It may not be the true shortest distance "
+        "yet, but it is the best estimate currently known and could still improve later."
+        
+        "Part 3b: Why Each Phase Holds "
+        "Initialization : why the invariant holds before iteration 1: "
+        "- At the start, S is empty, dist[source] = 0, and all other nodes are set to inf. "
+        "- The source is correct because the distance from the source to itself is 0, and no "
+        "other paths have been discovered yet."
+
+        "Maintenance: why finalizing the min-dist node is always correct: "
+        "- The algorithm picks the non-finalized node u with the smallest tentative distance "
+        "and marks it as finalized."
+        "- Because all edge weights are nonnegative, any other path to u would have to go through "
+        "a node that is already the same distance or farther away, so there’s no way to find a "
+        "cheaper route later."
+
+        "Termination: what the invariant guarantees when the algorithm ends: "
+        "- When the heap becomes empty, every reachable node has been finalized. "
+        "- This means dist[v] contains the true shortest-path distance from the source to every "
+        "reachable node. Any node still marked as float('inf') was unreachable."
+
+        "Part 3c: Why This Matters for the Route Planner "
+        "If any distance in the table were incorrect, the planner could choose a relic order that "
+        "only appears optimal, either missing the true cheapest route or selecting a path that "
+        "actually costs more fuel."
+    )
 
 
 # =============================================================================

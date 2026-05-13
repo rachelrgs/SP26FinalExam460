@@ -78,29 +78,43 @@ to check different possible orders to find the cheapest overall route._
 > Do not copy the invariant text from the spec.
 
 - **For nodes already finalized (in S):**
-  _Your answer here._
+  _dist[v] is the actual shortest distance from the source to v. Once a node is
+finalized, its value is guaranteed to be correct and will never change, because 
+no future path can produce a smaller distance._
 
 - **For nodes not yet finalized (not in S):**
-  _Your answer here._
+  _dist[u] is the cheapest distance found so far from the source to u using only
+finalized nodes as intermediate steps. It may not be the true shortest distance 
+yet, but it is the best estimate currently known and could still improve later._
 
 ### Part 3b: Why Each Phase Holds
 
 > One to two bullets per phase. Maintenance must mention nonnegative edge weights.
 
 - **Initialization : why the invariant holds before iteration 1:**
-  _Your answer here._
+- _At the start, S is empty, dist[source] = 0, and all other nodes are set to inf._
+- _The source is correct because the distance from the source to itself is 0, and no
+other paths have been discovered yet._
 
 - **Maintenance : why finalizing the min-dist node is always correct:**
-  _Your answer here._
+- _The algorithm picks the non-finalized node u with the smallest tentative distance
+and marks it as finalized._
+- _Because all edge weights are nonnegative, any other path to u would have to go through
+a node that is already the same distance or farther away, so there’s no way to find a
+cheaper route later._
 
 - **Termination : what the invariant guarantees when the algorithm ends:**
-  _Your answer here._
+- _When the heap becomes empty, every reachable node has been finalized._
+- _This means dist[v] contains the true shortest-path distance from the source to every
+reachable node. Any node still marked as float('inf') was unreachable._
 
 ### Part 3c: Why This Matters for the Route Planner
 
 > One sentence connecting correct distances to correct routing decisions.
 
-_Your answer here._
+_If any distance in the table were incorrect, the planner could choose a relic order that
+only appears optimal, either missing the true cheapest route or selecting a path that
+actually costs more fuel._
 
 ---
 
