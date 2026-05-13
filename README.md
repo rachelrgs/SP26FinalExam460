@@ -125,17 +125,29 @@ actually costs more fuel._
 > State the failure mode. Then give a concrete counter-example using specific node names
 > or costs (you may use the illustration example from the spec). Three to five bullets.
 
-- **The failure mode:** _Your answer here._
-- **Counter-example setup:** _Your answer here._
-- **What greedy picks:** _Your answer here._
-- **What optimal picks:** _Your answer here._
-- **Why greedy loses:** _Your answer here._
+- **The failure mode:** _A greedy approach always goes to the closest unvisited relic next.
+The problem is that picking the cheapest next step doesn’t guarantee the cheapest full route.
+A good-looking first move can lead to very expensive later moves._
+
+- **Counter-example setup:** _Using the example with B, C, and D: the distances are
+S -> B=1, S -> C=2, S -> D=2; B -> C=100, B -> D=1, B -> T=1; C -> B=1, C -> T=1; D -> B=1, D -> C=1._
+- **What greedy picks:** _Greedy starts at S and picks B first since it’s closest (cost 1).
+From B it then goes to D (1), then to C (1), and finally to T (1), for a total cost of 4. But
+if we change the setup so B->C is very expensive (100), greedy still starts with B and ends up
+getting stuck paying that large cost later, making the route much worse._
+- **What optimal picks:** _A better route is S->C->B->D->T, which avoids that expensive
+connection and gives a lower total cost._
+- **Why greedy loses:** _Greedy fails because it only looks at the next cheapest step and
+ignores how that choice affects the rest of the journey, and it can’t undo bad early
+decisions._
 
 ### What the Algorithm Must Explore
 
 > One bullet. Must use the word "order."
 
-- _Your answer here._
+- _The algorithm has to try different possible orders of visiting the relics because the total
+cost depends on the full route, not just one step at a time, so it has to compare different
+sequences to find the cheapest one._
 
 ---
 

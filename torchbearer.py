@@ -160,37 +160,34 @@ def dijkstra_invariant_check():
     """
 
     return (
-        "Why a single shortest-path run from S is not enough: "
-        "Running Dijkstra once from S can find the cheapest path to each location on its own, but it "
-        
         "Part 3a: What the Invariant Means"
         "For nodes already finalized (in S): "
         "dist[v] is the actual shortest distance from the source to v. Once a node is "
         "finalized, its value is guaranteed to be correct and will never change, because "
-        "no future path can produce a smaller distance."
+        "no future path can produce a smaller distance.\n\n"
         
         "For nodes not yet finalized (not in S): "
         "dist[u] is the cheapest distance found so far from the source to u using only "
         "finalized nodes as intermediate steps. It may not be the true shortest distance "
-        "yet, but it is the best estimate currently known and could still improve later."
+        "yet, but it is the best estimate currently known and could still improve later.\n\n"
         
         "Part 3b: Why Each Phase Holds "
         "Initialization : why the invariant holds before iteration 1: "
         "- At the start, S is empty, dist[source] = 0, and all other nodes are set to inf. "
         "- The source is correct because the distance from the source to itself is 0, and no "
-        "other paths have been discovered yet."
+        "other paths have been discovered yet.\n\n"
 
         "Maintenance: why finalizing the min-dist node is always correct: "
         "- The algorithm picks the non-finalized node u with the smallest tentative distance "
         "and marks it as finalized."
         "- Because all edge weights are nonnegative, any other path to u would have to go through "
         "a node that is already the same distance or farther away, so there’s no way to find a "
-        "cheaper route later."
+        "cheaper route later.\n\n"
 
         "Termination: what the invariant guarantees when the algorithm ends: "
         "- When the heap becomes empty, every reachable node has been finalized. "
         "- This means dist[v] contains the true shortest-path distance from the source to every "
-        "reachable node. Any node still marked as float('inf') was unreachable."
+        "reachable node. Any node still marked as float('inf') was unreachable.\n\n"
 
         "Part 3c: Why This Matters for the Route Planner "
         "If any distance in the table were incorrect, the planner could choose a relic order that "
@@ -213,7 +210,31 @@ def explain_search():
 
     TODO
     """
-    return "TODO"
+    return (
+        "- The failure mode: A greedy approach always goes to the closest unvisited relic next. "
+        "The problem is that picking the cheapest next step doesn’t guarantee the cheapest full route. "
+        "A good-looking first move can lead to very expensive later moves.\n\n"
+        
+        "- Counter-example setup: Using the example with B, C, and D: the distances are "
+        "S -> B=1, S -> C=2, S -> D=2; B -> C=100, B -> D=1, B -> T=1; C -> B=1, C -> T=1; D -> B=1, D -> C=1.\n\n"
+        
+        "- What greedy picks: Greedy starts at S and picks B first since it’s closest (cost 1). "
+        "From B it then goes to D (1), then to C (1), and finally to T (1), for a total cost of 4. But "
+        "if we change the setup so B->C is very expensive (100), greedy still starts with B and ends up "
+        "getting stuck paying that large cost later, making the route much worse.\n\n"
+        
+        "- What optimal picks: A better route is S->C->B->D->T, which avoids that expensive "
+        "connection and gives a lower total cost.\n\n"
+        
+        "- Why greedy loses: Greedy fails because it only looks at the next cheapest step and "
+        "ignores how that choice affects the rest of the journey, and it can’t undo bad early "
+        "decisions.\n\n"
+
+### What the Algorithm Must Explore
+        "- The algorithm has to try different possible orders of visiting the relics because the total "
+        "cost depends on the full route, not just one step at a time, so it has to compare different "
+        "sequences to find the cheapest one."
+    )
 
 
 # =============================================================================
