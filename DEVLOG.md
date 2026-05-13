@@ -25,12 +25,17 @@ check edge cases._
 
 ---
 
-## Entry 2 – [Date]: [Short description]
+## Entry 2 – [05/12/2026]: Wrong Assumption in Part 2
 
 > Required. At least one entry must describe a bug, wrong assumption, or design change
 > you encountered. Describe what went wrong and how you resolved it.
 
-_Your entry here._
+_When I first implemented select_sources, I only included the relic nodes as Dijkstra sources
+because I thought the only distances that mattered were between relics. This was a mistake since
+the Torchbearer actually starts at the spawn node, not at a relic. This means the first part of
+every route is spawn -> first relic, and without running Dijkstra from spawn, those distances
+were missing from the table. The fix was to add spawn to the list of source nodes before
+removing duplicates._
 
 ---
 
@@ -56,11 +61,11 @@ _Your entry here._
 | Part | Estimated Hours |
 |---|---|
 | Part 1: Problem Analysis | 1 |
-| Part 2: Precomputation Design | |
+| Part 2: Precomputation Design | 2.5 |
 | Part 3: Algorithm Correctness | |
 | Part 4: Search Design | |
 | Part 5: State and Search Space | |
 | Part 6: Pruning | |
 | Part 7: Implementation | |
 | README and DEVLOG writing | |
-| **Total** | 1 |
+| **Total** | 3.5 |

@@ -67,9 +67,13 @@ def select_sources(spawn, relics, exit_node):
     list[node]
         No duplicates. Order does not matter.
 
-    TODO
+    The exit_node is never a departure point (the journey ends there),
+    so it is not included as a source.
+    Duplicates removed using dict.fromkeys.
     """
-    pass
+    candidates = [spawn] + list(relics)
+    # dict.fromkeys removes duplicates (preserves insertion order)
+    return list(dict.fromkeys(candidates))
 
 
 def run_dijkstra(graph, source):
@@ -86,9 +90,34 @@ def run_dijkstra(graph, source):
         Minimum cost from source to every node in graph.
         Unreachable nodes map to float('inf').
 
-    TODO
+    Standard min-heap Dijkstra. Each heap entry is (tentative_cost, node).
+    A node is "finalized" the first time it is popped from the heap,
+    because all edge weights are nonnegative (so no later path can be
+    cheaper than the one that reached it with the minimum tentative cost).
+    Heap entries for already-finalized nodes are skipped.
     """
-    pass
+    # Initialize every node to infinity; source costs zero to reach itself.
+    dist = {node: float('inf') for node in graph}
+    dist[source] = 0
+
+    # Min-heap: (cost, node)
+    heap = [(0, source)]
+
+    while heap:
+        cost_u, u = heapq.heappop(heap)
+
+        # Skip stale entries: a cheaper path to u was already finalized.
+        if cost_u > dist[u]:
+            continue
+
+        # Relax all outgoing edges from u.
+        for v, edge_cost in graph[u]:
+            new_cost = dist[u] + edge_cost
+            if new_cost < dist[v]:
+                dist[v] = new_cost
+                heapq.heappush(heap, (new_cost, v))
+
+    return dist
 
 
 def precompute_distances(graph, spawn, relics, exit_node):
@@ -106,9 +135,15 @@ def precompute_distances(graph, spawn, relics, exit_node):
         Nested structure supporting dist_table[u][v] lookups
         for every source u your design requires.
 
-    TODO
+    Runs one Dijkstra per source node returned by select_sources and
+    stores the full distance dictionary keyed by that source.
+    Total cost: O((k+1) * (m log n)) where k = |relics|.
     """
-    pass
+    sources = select_sources(spawn, relics, exit_node)
+    dist_table = {}
+    for src in sources:
+        dist_table[src] = run_dijkstra(graph, src)
+    return dist_table
 
 
 # =============================================================================

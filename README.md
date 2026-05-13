@@ -41,29 +41,29 @@ to check different possible orders to find the cheapest overall route._
 
 | Source Node Type | Why it is a source |
 |---|---|
-| _node type_ | _one-line reason_ |
-| _node type_ | _one-line reason_ |
+| _Spawn (entrance) S_ | _The Torchbearer departs from here, so we need the cheapest cost from S to every relic and to the exit._ |
+| _Each relic chamber Ri_ | _After picking up a relic, the Torchbearer travels from that relic to another relic or to the exit, so we need distances from every relic too._ |
 
 ### Part 2b: Distance Storage
 
 > Fill in the table. No prose required.
 
-| Property | Your answer |
-|---|---|
-| Data structure name | |
-| What the keys represent | |
-| What the values represent | |
-| Lookup time complexity | |
-| Why O(1) lookup is possible | |
+| Property | Your answer                                                                                                     |
+|---|-----------------------------------------------------------------------------------------------------------------|
+| Data structure name | Nested dictionary (dict[node, dict[node, float]])                                                               |
+| What the keys represent | A source node (spawn or a relic) that Dijkstra was run from                                                     |
+| What the values represent | A dictionary mapping every graph node to its minimum travel cost from that source                               |
+| Lookup time complexity | O(1) average                                                                                                    |
+| Why O(1) lookup is possible | Python dictionaries use hash tables, so values can usually be found instantly using their key without searching |
 
 ### Part 2c: Precomputation Complexity
 
 > State the total complexity and show the arithmetic. Two to three lines max.
 
-- **Number of Dijkstra runs:** _your answer_
-- **Cost per run:** _your answer_
-- **Total complexity:** _your answer_
-- **Justification (one line):** _your answer_
+- **Number of Dijkstra runs:** _k + 1 (one per relic, plus one from spawn)_
+- **Cost per run:** _O(m log n), where m = |E| and n = |V|_
+- **Total complexity:** _O((k + 1) · m log n)_
+- **Justification (one line):** _We run Dijkstra once for every k + 1 source node. Each run processes the whole graph and uses heap operations that take O(log n) time._
 
 ---
 
