@@ -4,18 +4,9 @@
 **Student ID:** 133560411
 **Course:** CS 460 – Algorithms | Spring 2026
 
-> This README is your project documentation. Write it the way a developer would document
-> their design decisions , bullet points, brief justifications, and concrete examples where
-> required. You are not writing an essay. You are explaining what you built and why you built
-> it that way. Delete all blockquotes like this one before submitting. 
-
 ---
 
 ## Part 1: Problem Analysis
-
-> Document why this problem is not just a shortest-path problem. Three bullet points, one
-> per question. Each bullet should be 1-2 sentences max.
-
 - **Why a single shortest-path run from S is not enough:**
   _Running Dijkstra once from S can find the cheapest path to each location on its own, but it
 can’t figure out the best order to visit multiple relic chambers. For example, going to R1 before
@@ -36,18 +27,12 @@ to check different possible orders to find the cheapest overall route._
 ## Part 2: Precomputation Design
 
 ### Part 2a: Source Selection
-
-> List the source node types as a bullet list. For each, one-line reason.
-
 | Source Node Type | Why it is a source |
 |---|---|
 | _Spawn (entrance) S_ | _The Torchbearer departs from here, so we need the cheapest cost from S to every relic and to the exit._ |
 | _Each relic chamber Ri_ | _After picking up a relic, the Torchbearer travels from that relic to another relic or to the exit, so we need distances from every relic too._ |
 
 ### Part 2b: Distance Storage
-
-> Fill in the table. No prose required.
-
 | Property | Your answer                                                                                                     |
 |---|-----------------------------------------------------------------------------------------------------------------|
 | Data structure name | Nested dictionary (dict[node, dict[node, float]])                                                               |
@@ -57,9 +42,6 @@ to check different possible orders to find the cheapest overall route._
 | Why O(1) lookup is possible | Python dictionaries use hash tables, so values can usually be found instantly using their key without searching |
 
 ### Part 2c: Precomputation Complexity
-
-> State the total complexity and show the arithmetic. Two to three lines max.
-
 - **Number of Dijkstra runs:** _k + 1 (one per relic, plus one from spawn)_
 - **Cost per run:** _O(m log n), where m = |E| and n = |V|_
 - **Total complexity:** _O((k + 1) · m log n)_
@@ -69,14 +51,7 @@ to check different possible orders to find the cheapest overall route._
 
 ## Part 3: Algorithm Correctness
 
-> Document your understanding of why Dijkstra produces correct distances.
-> Bullet points and short sentences throughout. No paragraphs.
-
 ### Part 3a: What the Invariant Means
-
-> Two bullets: one for finalized nodes, one for non-finalized nodes.
-> Do not copy the invariant text from the spec.
-
 - **For nodes already finalized (in S):**
   _dist[v] is the actual shortest distance from the source to v. Once a node is
 finalized, its value is guaranteed to be correct and will never change, because 
@@ -88,9 +63,6 @@ finalized nodes as intermediate steps. It may not be the true shortest distance
 yet, but it is the best estimate currently known and could still improve later._
 
 ### Part 3b: Why Each Phase Holds
-
-> One to two bullets per phase. Maintenance must mention nonnegative edge weights.
-
 - **Initialization : why the invariant holds before iteration 1:**
 - _At the start, S is empty, dist[source] = 0, and all other nodes are set to inf._
 - _The source is correct because the distance from the source to itself is 0, and no
@@ -109,9 +81,6 @@ cheaper route later._
 reachable node. Any node still marked as float('inf') was unreachable._
 
 ### Part 3c: Why This Matters for the Route Planner
-
-> One sentence connecting correct distances to correct routing decisions.
-
 _If any distance in the table were incorrect, the planner could choose a relic order that
 only appears optimal, either missing the true cheapest route or selecting a path that
 actually costs more fuel._
@@ -121,10 +90,6 @@ actually costs more fuel._
 ## Part 4: Search Design
 
 ### Why Greedy Fails
-
-> State the failure mode. Then give a concrete counter-example using specific node names
-> or costs (you may use the illustration example from the spec). Three to five bullets.
-
 - **The failure mode:** _A greedy approach always goes to the closest unvisited relic next.
 The problem is that picking the cheapest next step doesn’t guarantee the cheapest full route.
 A good-looking first move can lead to very expensive later moves._
@@ -142,9 +107,6 @@ ignores how that choice affects the rest of the journey, and it can’t undo bad
 decisions._
 
 ### What the Algorithm Must Explore
-
-> One bullet. Must use the word "order."
-
 - _The algorithm has to try different possible orders of visiting the relics because the total
 cost depends on the full route, not just one step at a time, so it has to compare different
 sequences to find the cheapest one._
@@ -154,10 +116,6 @@ sequences to find the cheapest one._
 ## Part 5: State and Search Space
 
 ### Part 5a: State Representation
-
-> Document the three components of your search state as a table.
-> Variable names here must match exactly what you use in torchbearer.py.
-
 | Component | Variable name in code | Data type           | Description           |
 |---|-----------------------|---------------------|-----------------------|
 | Current location | current_loc           | node (any hashable) | The dungeon node the Torchbearer is currently standing at  |
@@ -165,9 +123,6 @@ sequences to find the cheapest one._
 | Fuel cost so far | cost_so_far           | float               | Total fuel burned along the current path from spawn to current_loc                      |
 
 ### Part 5b: Data Structure for Visited Relics
-
-> Fill in the table.
-
 | Property | Your answer                   |
 |---|-------------------------------|
 | Data structure chosen | set (Python built-in hash set) |
@@ -177,9 +132,6 @@ sequences to find the cheapest one._
 | Why this structure fits | All three operations needed during recursive search (check, mark, unmark) are O(1);sets also make it easy to loop through remaining relics and check when none are left.                              |
 
 ### Part 5c: Worst-Case Search Space
-
-> Two bullets.
-
 - **Worst-case number of orders considered:** _k! (k factorial), where k = |M| = number of relic chambers._
 - **Why:** _Without pruning, the algorithm tries every permutation of the k relics. There are k choices for the first relic, k−1 for the second, and so on, giving k x (k−1) x … x 1 = k! distinct orderings in the worst case._
 
@@ -188,32 +140,20 @@ sequences to find the cheapest one._
 ## Part 6: Pruning
 
 ### Part 6a: Best-So-Far Tracking
-
-> Three bullets.
-
 - **What is tracked:** _best[0] stores the lowest total fuel cost found so far for a complete route from the spawn, through all relics, to the exit. best[1] stores the relic order for that best route. They are updated whenever the algorithm finds a cheaper complete solution.._
 - **When it is used:** _At the start of each recursive call, the algorithm compares the current branch’s lower-bound estimate against best[0]._
 - **What it allows the algorithm to skip:** _If the branch’s estimated minimum possible cost is already greater than or equal to best[0], the algorithm stops exploring that branch because it cannot lead to a better solution._
 
 ### Part 6b: Lower Bound Estimation
-
-> Three bullets.
-
 - **What information is available at the current state:** _The algorithm knows the fuel cost so far (cost_so_far), the current location, the remaining relics, and the precomputed shortest distances between important locations._
 - **What the lower bound accounts for:** _The estimate includes the current cost so far, the cheapest cost to reach any remaining relic, and the cheapest cost from a remaining relic to the exit. This gives a minimum possible cost to finish the route._
 - **Why it never overestimates:** _All values come from the shortest-path distance table, which contains true minimum costs. Since the algorithm always uses the minimum possible values, the estimate can be smaller than the real remaining cost, but never larger._
 
 ### Part 6c: Pruning Correctness
-
-> One to two bullets. Explain why pruning is safe.
-
 - _Pruning is safe because the lower bound never overestimates the true remaining cost, so if a branch could actually lead to a better solution, its estimate would also look better and the branch would not be pruned._
 - _Consequently, the algorithm only removes branches that cannot possibly beat the current best solution, so the optimal route is never accidentally discarded._
 
 ---
 
 ## References
-
-> Bullet list. If none beyond lecture notes, write that.
-
-- _https://www.geeksforgeeks.org/python/hash-set-in-python/_
+- _Kelania, A. (2025). Geeks For Geeks. https://www.geeksforgeeks.org/python/hash-set-in-python/. I used this to refresh my memory on hash sets in Python for part 5 to make sure I was using it right._

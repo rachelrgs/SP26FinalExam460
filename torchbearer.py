@@ -19,7 +19,6 @@ Submit this file as: torchbearer.py
 
 import heapq
 
-
 # =============================================================================
 # PART 1
 # =============================================================================
@@ -31,8 +30,6 @@ def explain_problem():
     str
         Your Part 1 README answers, written as a string.
         Must match what you wrote in README Part 1.
-
-    TODO
     """
     return (
         "Why a single shortest-path run from S is not enough: "
@@ -56,6 +53,8 @@ def explain_problem():
 
 def select_sources(spawn, relics, exit_node):
     """
+    Return the list of nodes from which Dijkstra must be run.
+
     Parameters
     ----------
     spawn : node
@@ -78,6 +77,8 @@ def select_sources(spawn, relics, exit_node):
 
 def run_dijkstra(graph, source):
     """
+    Compute single-source shortest-path distances using a min-heap.
+
     Parameters
     ----------
     graph : dict[node, list[tuple[node, int]]]
@@ -122,6 +123,8 @@ def run_dijkstra(graph, source):
 
 def precompute_distances(graph, spawn, relics, exit_node):
     """
+    Build the complete distance table used by the route-search engine.
+
     Parameters
     ----------
     graph : dict[node, list[tuple[node, int]]]
@@ -207,8 +210,6 @@ def explain_search():
     str
         Your Part 4 README answers, written as a string.
         Must match what you wrote in README Part 4.
-
-    TODO
     """
     return (
         "- The failure mode: A greedy approach always goes to the closest unvisited relic next. "
@@ -243,6 +244,8 @@ def explain_search():
 
 def find_optimal_route(dist_table, spawn, relics, exit_node):
     """
+    Find the minimum-fuel route from spawn through all relics to exit_node.
+
     Parameters
     ----------
     dist_table : dict[node, dict[node, float]]
@@ -260,10 +263,10 @@ def find_optimal_route(dist_table, spawn, relics, exit_node):
         Returns (float('inf'), []) if no valid route exists.
 
     State representation (see README Part 5a):
-      current_loc            — node the Torchbearer is currently at
-      relics_remaining       — set of relic nodes not yet collected
-      relics_visited_order   — list recording the order relics were collected
-      cost_so_far            — total fuel burned to reach current_loc
+      current_loc — node the Torchbearer is currently at
+      relics_remaining — set of relic nodes not yet collected
+      relics_visited_order — list recording the order relics were collected
+      cost_so_far — total fuel burned to reach current_loc
     """
     # best[0] = best fuel cost found so far, best[1] = corresponding relic order
     # A mutable list lets _explore update it without a return value
@@ -288,15 +291,13 @@ def find_optimal_route(dist_table, spawn, relics, exit_node):
 def _explore(dist_table, current_loc, relics_remaining, relics_visited_order,
              cost_so_far, exit_node, best):
     """
-    Recursive helper for find_optimal_route.
-
     Parameters
     ----------
     dist_table : dict[node, dict[node, float]]
     current_loc : node
     relics_remaining : set
         - Relic nodes not yet collected (chosen data structure: set)
-        - See README Part 5b for complexity justification
+        - See README Part 5b for complexity
     relics_visited_order : list[node]
         - Relics collected so far, in order they were visited
     cost_so_far : float
@@ -373,7 +374,6 @@ def _explore(dist_table, current_loc, relics_remaining, relics_visited_order,
         relics_visited_order.pop()  # unmark order
         relics_remaining.add(next_relic)  # unmark collected
 
-
 # =============================================================================
 # PIPELINE
 # =============================================================================
@@ -383,20 +383,23 @@ def solve(graph, spawn, relics, exit_node):
     Parameters
     ----------
     graph : dict[node, list[tuple[node, int]]]
+        Weighted directed graph as an adjacency list.
     spawn : node
+        Starting location (dungeon entrance).
     relics : list[node]
+        Relic chambers that must each be visited at least once.
     exit_node : node
+        The route must end here (dungeon exit).
 
     Returns
     -------
     tuple[float, list[node]]
         (minimum_fuel_cost, ordered_relic_list)
         Returns (float('inf'), []) if no valid route exists.
-
-    TODO
     """
-    pass
 
+    dist_table = precompute_distances(graph, spawn, relics, exit_node)
+    return find_optimal_route(dist_table, spawn, relics, exit_node)
 
 # =============================================================================
 # PROVIDED TESTS (do not modify)
