@@ -64,8 +64,8 @@ _Your entry here._
 | Part 2: Precomputation Design | 2.5             |
 | Part 3: Algorithm Correctness | 0.75            |
 | Part 4: Search Design | 0.5             |
-| Part 5: State and Search Space |                 |
+| Part 5: State and Search Space | 0.75            |
 | Part 6: Pruning |                 |
 | Part 7: Implementation |                 |
 | README and DEVLOG writing |                 |
-| **Total** | 4.75            |
+| **Total** | 5.5             |

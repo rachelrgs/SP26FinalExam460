@@ -259,10 +259,31 @@ def find_optimal_route(dist_table, spawn, relics, exit_node):
         (minimum_fuel_cost, ordered_relic_list)
         Returns (float('inf'), []) if no valid route exists.
 
-    TODO
+    State representation (see README Part 5a):
+      current_loc            — node the Torchbearer is currently at
+      relics_remaining       — set of relic nodes not yet collected
+      relics_visited_order   — list recording the order relics were collected
+      cost_so_far            — total fuel burned to reach current_loc
     """
-    pass
+    # best[0] = best fuel cost found so far, best[1] = corresponding relic order
+    # A mutable list lets _explore update it without a return value
+    best = [float('inf'), []]
 
+    # relics_remaining is a set: O(1) membership test, O(1) add/remove,
+    # and O(1) discard for backtracking (see README Part 5b)
+    relics_remaining = set(relics)
+
+    _explore(
+        dist_table=dist_table,
+        current_loc=spawn,
+        relics_remaining=relics_remaining,
+        relics_visited_order=[],
+        cost_so_far=0.0,
+        exit_node=exit_node,
+        best=best,
+    )
+
+    return (best[0], best[1])
 
 def _explore(dist_table, current_loc, relics_remaining, relics_visited_order,
              cost_so_far, exit_node, best):
@@ -273,27 +294,65 @@ def _explore(dist_table, current_loc, relics_remaining, relics_visited_order,
     ----------
     dist_table : dict[node, dict[node, float]]
     current_loc : node
-    relics_remaining : collection
-        Your chosen data structure from README Part 5b.
+    relics_remaining : set
+        - Relic nodes not yet collected (chosen data structure: set)
+        - See README Part 5b for complexity justification
     relics_visited_order : list[node]
+        - Relics collected so far, in order they were visited
     cost_so_far : float
+        - Total fuel burned to reach current_loc along the current path
     exit_node : node
     best : list
-        Mutable container for the best solution found so far.
+        - best[0] = best fuel cost found so far (float)
+        - best[1] = relic visitation order for that best cost (list)
 
     Returns
     -------
     None
         Updates best in place.
+    """
 
-    TODO
+    if not relics_remaining:
+        cost_to_exit = dist_table[current_loc][exit_node]
+        total_cost = cost_so_far + cost_to_exit
+        if total_cost < best[0]:
+            best[0] = total_cost
+            best[1] = list(relics_visited_order)  # snapshot the current order
+        return
+
+    """
+    TODO - Will leave for part 6
     Implement: base case, pruning, recursive case, backtracking.
 
     REQUIRED: Add a 1-2 sentence comment near your pruning condition
     explaining why it is safe (cannot skip the optimal solution).
     This comment is graded.
     """
-    pass
+
+    for next_relic in list(relics_remaining):
+        travel_cost = dist_table[current_loc][next_relic]
+
+        # If next_relic is unreachable from current_loc, skip branch
+        if travel_cost == float('inf'):
+            continue
+
+        # recurse
+        relics_remaining.remove(next_relic)  # mark collected
+        relics_visited_order.append(next_relic)  # record order
+
+        _explore(
+            dist_table=dist_table,
+            current_loc=next_relic,
+            relics_remaining=relics_remaining,
+            relics_visited_order=relics_visited_order,
+            cost_so_far=cost_so_far + travel_cost,
+            exit_node=exit_node,
+            best=best,
+        )
+
+        # backtrack
+        relics_visited_order.pop()  # unmark order
+        relics_remaining.add(next_relic)  # unmark collected
 
 
 # =============================================================================

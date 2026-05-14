@@ -158,30 +158,30 @@ sequences to find the cheapest one._
 > Document the three components of your search state as a table.
 > Variable names here must match exactly what you use in torchbearer.py.
 
-| Component | Variable name in code | Data type | Description |
-|---|---|---|---|
-| Current location | | | |
-| Relics already collected | | | |
-| Fuel cost so far | | | |
+| Component | Variable name in code | Data type           | Description           |
+|---|-----------------------|---------------------|-----------------------|
+| Current location | current_loc           | node (any hashable) | The dungeon node the Torchbearer is currently standing at  |
+| Relics already collected | relics_remaining      | set                 | The set of relic nodes not yet visited; a relic is collected when removed from this set                      |
+| Fuel cost so far | cost_so_far           | float               | Total fuel burned along the current path from spawn to current_loc                      |
 
 ### Part 5b: Data Structure for Visited Relics
 
 > Fill in the table.
 
-| Property | Your answer |
-|---|---|
-| Data structure chosen | |
-| Operation: check if relic already collected | Time complexity: |
-| Operation: mark a relic as collected | Time complexity: |
-| Operation: unmark a relic (backtrack) | Time complexity: |
-| Why this structure fits | |
+| Property | Your answer                   |
+|---|-------------------------------|
+| Data structure chosen | set (Python built-in hash set) |
+| Operation: check if relic already collected | Time complexity: O(1) average |
+| Operation: mark a relic as collected | Time complexity: O(1) average |
+| Operation: unmark a relic (backtrack) | Time complexity: O(1) average |
+| Why this structure fits | All three operations needed during recursive search (check, mark, unmark) are O(1);sets also make it easy to loop through remaining relics and check when none are left.                              |
 
 ### Part 5c: Worst-Case Search Space
 
 > Two bullets.
 
-- **Worst-case number of orders considered:** _Your answer (in terms of k)._
-- **Why:** _One-line justification._
+- **Worst-case number of orders considered:** _k! (k factorial), where k = |M| = number of relic chambers._
+- **Why:** _Without pruning, the algorithm tries every permutation of the k relics. There are k choices for the first relic, k−1 for the second, and so on, giving k x (k−1) x … x 1 = k! distinct orderings in the worst case._
 
 ---
 
