@@ -191,23 +191,24 @@ sequences to find the cheapest one._
 
 > Three bullets.
 
-- **What is tracked:** _Your answer here._
-- **When it is used:** _Your answer here._
-- **What it allows the algorithm to skip:** _Your answer here._
+- **What is tracked:** _best[0] stores the lowest total fuel cost found so far for a complete route from the spawn, through all relics, to the exit. best[1] stores the relic order for that best route. They are updated whenever the algorithm finds a cheaper complete solution.._
+- **When it is used:** _At the start of each recursive call, the algorithm compares the current branch’s lower-bound estimate against best[0]._
+- **What it allows the algorithm to skip:** _If the branch’s estimated minimum possible cost is already greater than or equal to best[0], the algorithm stops exploring that branch because it cannot lead to a better solution._
 
 ### Part 6b: Lower Bound Estimation
 
 > Three bullets.
 
-- **What information is available at the current state:** _Your answer here._
-- **What the lower bound accounts for:** _Your answer here._
-- **Why it never overestimates:** _Your answer here._
+- **What information is available at the current state:** _The algorithm knows the fuel cost so far (cost_so_far), the current location, the remaining relics, and the precomputed shortest distances between important locations._
+- **What the lower bound accounts for:** _The estimate includes the current cost so far, the cheapest cost to reach any remaining relic, and the cheapest cost from a remaining relic to the exit. This gives a minimum possible cost to finish the route._
+- **Why it never overestimates:** _All values come from the shortest-path distance table, which contains true minimum costs. Since the algorithm always uses the minimum possible values, the estimate can be smaller than the real remaining cost, but never larger._
 
 ### Part 6c: Pruning Correctness
 
 > One to two bullets. Explain why pruning is safe.
 
-- _Your answer here._
+- _Pruning is safe because the lower bound never overestimates the true remaining cost, so if a branch could actually lead to a better solution, its estimate would also look better and the branch would not be pruned._
+- _Consequently, the algorithm only removes branches that cannot possibly beat the current best solution, so the optimal route is never accidentally discarded._
 
 ---
 
@@ -215,4 +216,4 @@ sequences to find the cheapest one._
 
 > Bullet list. If none beyond lecture notes, write that.
 
-- _Your references here._
+- _https://www.geeksforgeeks.org/python/hash-set-in-python/_

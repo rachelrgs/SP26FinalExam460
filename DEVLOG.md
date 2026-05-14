@@ -39,9 +39,16 @@ removing duplicates._
 
 ---
 
-## Entry 3 – [Date]: [Short description]
+## Entry 3 – [05/14/2026]: Wrong Assumption in Part 6
 
-_Your entry here._
+_My first version of the lower bound only used min_to_next, which is the cheapest cost from the
+current location to any remaining relic. This made the estimate too weak, so the algorithm didn’t
+prune many unnecessary branches. Later, when I tried to improve the bound by using the cost to
+one specific relic instead of the minimum over all relics, I created a bigger problem: sometimes
+that relic was not part of the best route, so the estimate became too high and could incorrectly
+prune the optimal path. The fix was to always use the minimum cost over all remaining relics for
+both min_to_next and min_to_exit, which guarantees the estimate never becomes larger than the true
+remaining cost._
 
 ---
 
@@ -65,7 +72,7 @@ _Your entry here._
 | Part 3: Algorithm Correctness | 0.75            |
 | Part 4: Search Design | 0.5             |
 | Part 5: State and Search Space | 0.75            |
-| Part 6: Pruning |                 |
+| Part 6: Pruning | 2.5             |
 | Part 7: Implementation |                 |
 | README and DEVLOG writing |                 |
-| **Total** | 5.5             |
+| **Total** | 8               |

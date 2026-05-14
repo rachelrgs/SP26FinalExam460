@@ -312,6 +312,7 @@ def _explore(dist_table, current_loc, relics_remaining, relics_visited_order,
         Updates best in place.
     """
 
+    # Base case
     if not relics_remaining:
         cost_to_exit = dist_table[current_loc][exit_node]
         total_cost = cost_so_far + cost_to_exit
@@ -321,14 +322,32 @@ def _explore(dist_table, current_loc, relics_remaining, relics_visited_order,
         return
 
     """
-    TODO - Will leave for part 6
     Implement: base case, pruning, recursive case, backtracking.
 
     REQUIRED: Add a 1-2 sentence comment near your pruning condition
     explaining why it is safe (cannot skip the optimal solution).
     This comment is graded.
     """
+    # Pruning: best-so-far + lower-bound check (Part 6).
+    # Lower bound: the cheapest this branch can possibly finish is
+    # cost_so_far, plus the minimum cost to reach any remaining relic from
+    # current_loc, plus the minimum cost from any remaining relic to the exit.
+    # Since these values come from shortest-path distances, the estimate
+    # can never be higher than the true remaining cost.
+    min_to_next = min(dist_table[current_loc][r] for r in relics_remaining)
+    min_to_exit = min(dist_table[r][exit_node] for r in relics_remaining)
+    lower_bound = cost_so_far + min_to_next + min_to_exit
 
+    # Pruning Safety: We prune only when the lower bound on the total cost
+    # of this branch is >= best[0]. Because the lower bound never overestimates
+    # the true remaining cost (all values come from exact shortest-path
+    # distances), any route that could beat best[0] would produce a lower
+    # bound strictly less than best[0] and would not be pruned. So the
+    # optimal solution is never discarded.
+    if lower_bound >= best[0]:
+        return
+
+    # Recursive case
     for next_relic in list(relics_remaining):
         travel_cost = dist_table[current_loc][next_relic]
 
